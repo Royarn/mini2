@@ -5,6 +5,7 @@ package com.royarn.mini.util;
  * @Description: ${todo}
  * @date 2018/7/12 15:35
  */
+
 public class StringUtils {
 
     public static boolean isEmpty(String str) {
