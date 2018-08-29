@@ -5,7 +5,6 @@ import com.royarn.mini.config.MongoConfig;
 import com.royarn.mini.entity.Camera;
 import com.royarn.mini.service.AbstractService;
 import com.royarn.mini.service.CameraService;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
