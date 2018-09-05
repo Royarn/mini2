@@ -48,3 +48,9 @@ mybatis:
 hostconf:
   host: 192.168.12.78
   port: 8080
+management:
+  endpoints:
+    web:
+      exposure:
+
+        include: "*"
