@@ -7,6 +7,10 @@ package com.royarn.mini.datastruct;
  */
 public class LinkedStack<T> {
 
+    /**
+     * a dataNode
+     * @param <E>
+     */
     static class Node<E> {
         E e;
         Node<E> next;
