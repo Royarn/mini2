@@ -8,7 +8,7 @@ package com.royarn.mini.datastruct;
 public class LinkedStack<T> {
 
     /**
-     * a dataNode
+     * a dataNode --test git
      * @param <E>
      */
     static class Node<E> {
