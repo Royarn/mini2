@@ -3,10 +3,12 @@ package com.royarn.mini.java8;
 import com.alibaba.fastjson.JSON;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * 在lambda表达式中
@@ -30,7 +32,21 @@ public class LambdaDemo3 {
 
         //使用Function实现map函数
         List<String> result = map(people, person -> person.getName());
-        System.out.println(result);
+
+        //java8实现数据过滤-排序-map
+        List<String> result1 = people.stream()
+                .filter(person -> person.getWeight() > 120)
+                .sorted(Comparator.comparing(Person::getHeight))
+                .map(person -> person.getName())
+                .collect(Collectors.toList());
+
+        //基于多核CPU架构的并行处理数据
+        List<String> result2 = people.parallelStream()
+                .filter(person -> person.getWeight() > 120)
+                .sorted(Comparator.comparing(Person::getHeight))
+                .map(person -> person.getName())
+                .collect(Collectors.toList());
+        System.out.println(JSON.toJSON(result2));
     }
 
     //使用Predicate进行筛选数据

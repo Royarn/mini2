@@ -1,13 +1,11 @@
 package com.royarn.mini.java8;
 
-import com.alibaba.fastjson.JSON;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 public class LamdaDemo2 {
 
