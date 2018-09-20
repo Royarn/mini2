@@ -1,8 +1,11 @@
 package com.royarn.mini.java8;
 
+import com.alibaba.fastjson.JSON;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -18,6 +21,10 @@ import java.util.stream.Collectors;
  *      filter() map() reduce() distinct() sorted() limit()
  *    终端操作：
  *      count() collect() forEach()
+ *          包含短路匹配：
+ *              anyMatch()  allMatch() noneMatch()
+ *              短路查找：
+ *              findAny()   findAll()
  */
 public class StreamDemo {
 
@@ -85,6 +92,41 @@ public class StreamDemo {
                                 .filter(integer1 -> (integer + integer1) % 3 == 0)
                 .map(integer1 -> new int[] {integer, integer1}))
                 .collect(Collectors.toList());
+
+        //map模型 --anyMatch匹配
+        menus.stream()
+                .anyMatch(menu -> menu.getType().equals(Menu.Type.MEAT));
+
+        //map模型  --allMatch匹配
+        menus.stream()
+                .allMatch(menu -> menu.getCalories() < 600);
+
+        //map模型  --noneMatch匹配
+        menus.stream()
+                .noneMatch(menu -> menu.getCalories() > 300);
+
+        //map模型  --findAny
+        menus.stream()
+                .filter(menu -> menu.getType().equals(Menu.Type.OTHER))
+                .findAny();
+
+        //map模型  --findFirst
+        menus.stream()
+                .filter(menu -> menu.getCalories() > 1000)
+                .findFirst();
+
+        //reduce模型  --数据合并
+        Arrays.asList(1, 4, 8, 2, 5).stream()
+                .reduce(1, (a, b) -> a * b);
+
+        //reduce模型 --数值极值
+        Arrays.asList(2833, 23, 234, 2135, 5675634).stream()
+                .reduce(24, (a, b) -> a > b ? a : b);
+
+        //map & reduce模型
+        menus.stream()
+                .map(Menu::getCalories)
+                .reduce(0, (a, b) -> a + b);
     }
 }
 
