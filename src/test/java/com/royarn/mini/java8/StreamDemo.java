@@ -2,10 +2,7 @@ package com.royarn.mini.java8;
 
 import com.alibaba.fastjson.JSON;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -36,7 +33,7 @@ public class StreamDemo {
         menus.add(new Menu("french fries", true, 530, Menu.Type.OTHER));
         menus.add(new Menu("rice", true, 350, Menu.Type.OTHER));
         menus.add(new Menu("reason fruit", true, 120, Menu.Type.OTHER));
-        menus.add(new Menu("pizza", true, 550, Menu.Type.OTHER));
+        menus.add(new Menu("pizza", true, 1550, Menu.Type.OTHER));
         menus.add(new Menu("prawns", false, 300, Menu.Type.FISH));
         menus.add(new Menu("salmon", false, 450, Menu.Type.FISH));
 
@@ -52,7 +49,7 @@ public class StreamDemo {
                 .stream()
                 .filter(integer -> integer % 2 == 0)
                 .distinct()
-                .forEach(System.out::println);
+                .collect(Collectors.toList());
 
        //筛选数据
         menus.stream()
@@ -127,6 +124,24 @@ public class StreamDemo {
         menus.stream()
                 .map(Menu::getCalories)
                 .reduce(0, (a, b) -> a + b);
+
+        //max
+        menus.stream()
+                .max(Comparator.comparing(Menu::getCalories));
+        menus.stream()
+                .max(Comparator.comparing(Menu::getCalories));
+        menus.stream()
+                .map(menu -> menu.getCalories())
+                .reduce(0, (v1, v2) -> v1 > v2 ? v1 : v2);
+
+        //sum
+        menus.stream()
+                .collect(Collectors.summingLong(Menu::getCalories));
+
+        //join
+        menus.stream()
+                .map(menu -> menu.getName())
+                .collect(Collectors.joining(" - "));
     }
 }
 
