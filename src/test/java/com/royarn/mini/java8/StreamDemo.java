@@ -3,7 +3,8 @@ package com.royarn.mini.java8;
 import com.alibaba.fastjson.JSON;
 
 import java.util.*;
-import java.util.stream.Collectors;
+import static java.util.stream.Collectors.*;
+import static java.util.Comparator.*;
 
 /**
  * 在stream API中
@@ -28,7 +29,7 @@ public class StreamDemo {
     public static void main(String[] args) {
         List<Menu> menus = new ArrayList<>();
         menus.add(new Menu("pork", false, 800, Menu.Type.MEAT));
-        menus.add(new Menu("beef", false, 700, Menu.Type.MEAT));
+        menus.add(new Menu("beef", false, 530, Menu.Type.MEAT));
         menus.add(new Menu("chicken", false, 400, Menu.Type.MEAT));
         menus.add(new Menu("french fries", true, 530, Menu.Type.OTHER));
         menus.add(new Menu("rice", true, 350, Menu.Type.OTHER));
@@ -42,14 +43,14 @@ public class StreamDemo {
                 .filter(menu -> menu.getCalories() > 300)
                 .map(Menu::getName)
                 .limit(3)
-                .collect(Collectors.toList());
+                .collect(toList());
 
         //流式处理 --distinct
        Arrays.asList(1, 2, 2, 5, 5, 8, 8, 6)
                 .stream()
                 .filter(integer -> integer % 2 == 0)
                 .distinct()
-                .collect(Collectors.toList());
+                .collect(toList());
 
        //筛选数据
         menus.stream()
@@ -57,13 +58,13 @@ public class StreamDemo {
                 .limit(2)
                 .map(menu -> menu.getName())
                 .map(String::length)
-                .collect(Collectors.toList());
+                .collect(toList());
 
         //map模型
         List<String> words = Arrays.asList("blink", "flume", "ych", "chaos knight");
         words.stream()
                 .map(String::length)
-                .collect(Collectors.toList());
+                .collect(toList());
 
         //map模型 --flatMap
         Arrays.asList("Hello", "World")
@@ -71,14 +72,14 @@ public class StreamDemo {
                 .map(s -> s.split(""))
                 .flatMap(Arrays::stream)
                 .distinct()
-                .collect(Collectors.toList());
+                .collect(toList());
 
         //map模型 --求数的平方
         Arrays.asList(1, 3, 5, 7)
                 .stream()
                 .map(integer -> integer * integer)
                 .distinct()
-                .collect(Collectors.toList());
+                .collect(toList());
 
         //map模型 --构建笛卡尔积
         List<Integer> number1 = Arrays.asList(1, 2, 3);
@@ -88,7 +89,7 @@ public class StreamDemo {
                         number2.stream()
                                 .filter(integer1 -> (integer + integer1) % 3 == 0)
                 .map(integer1 -> new int[] {integer, integer1}))
-                .collect(Collectors.toList());
+                .collect(toList());
 
         //map模型 --anyMatch匹配
         menus.stream()
@@ -136,12 +137,114 @@ public class StreamDemo {
 
         //sum
         menus.stream()
-                .collect(Collectors.summingLong(Menu::getCalories));
+                .collect(summingLong(Menu::getCalories));
 
         //join
         menus.stream()
                 .map(menu -> menu.getName())
-                .collect(Collectors.joining(" - "));
+                .collect(joining(" - "));
+
+        //group by
+        menus.stream()
+                .collect(groupingBy(Menu::getCalories));
+        menus.stream()
+                .collect(groupingBy(Menu::getType));
+
+        //customize group by
+        menus.stream()
+                .collect(groupingBy(menu -> {
+                    if (menu.getCalories() < 400)
+                        return Menu.CalorieType.LOW;
+                    else if (menu.getCalories() > 700)
+                        return Menu.CalorieType.HIGH;
+                    return Menu.CalorieType.NORMAL;
+                }));
+
+        //multi group by
+        menus.stream()
+                .collect(groupingBy(Menu::getType,
+                        groupingBy(menu -> {
+                            if (menu.getCalories() >700)
+                                return Menu.CalorieType.HIGH;
+                            if (menu.getCalories() < 400)
+                                return Menu.CalorieType.LOW;
+                            return Menu.CalorieType.NORMAL;
+                        })));
+
+        //group by and then count
+        menus.stream()
+                .collect(groupingBy(Menu::getType, counting()));
+
+        //group bu and the find max
+        menus.stream()
+                .collect(groupingBy(Menu::getType,
+                        collectingAndThen(
+                                maxBy(comparingInt(Menu::getCalories)),
+                                Optional::get)));
+
+        //group bu and count calories
+        menus.stream()
+                .collect(groupingBy(Menu::getType,
+                        summingLong(Menu::getCalories)));
+
+        //group by and then transfer
+        menus.stream()
+                .collect(groupingBy(Menu::getType,
+                        mapping(menu -> {
+                            if (menu.getCalories() > 700)
+                                return Menu.CalorieType.HIGH;
+                            if (menu.getCalories() < 400)
+                                return Menu.CalorieType.LOW;
+                            return Menu.CalorieType.NORMAL;
+                        }, toSet())
+                ));
+
+        //group bu and then transfer --a better and safer way
+        menus.stream()
+                .collect(groupingBy(Menu::getType,
+                        mapping(menu -> {
+                            if (menu.getCalories() > 700)
+                                return Menu.CalorieType.HIGH;
+                            if (menu.getCalories() < 400)
+                                return Menu.CalorieType.LOW;
+                            return Menu.CalorieType.NORMAL;
+                        }, toCollection(HashSet::new))
+                ));
+
+        //count
+        menus.stream()
+                .collect(counting());
+
+        //average
+        menus.stream()
+                .collect(averagingInt(Menu::getCalories));
+
+        //statistics
+        menus.stream()
+                .collect(summarizingInt(Menu::getCalories));
+
+        //reduce transfer
+        menus.stream()
+                .collect(reducing(0, Menu::getCalories, Integer::sum));
+
+        //mapToInt
+        menus.stream()
+                .map(Menu::getCalories)
+                .reduce(Integer::sum);
+
+        //partition
+        menus.stream()
+                .collect(partitioningBy(Menu::isFlag,
+                        groupingBy(Menu::getType)));
+
+        //partition and then find max
+        menus.stream()
+                .collect(partitioningBy(Menu::isFlag,
+                        collectingAndThen(maxBy(comparingInt(Menu::getCalories)), Optional::get)
+                ));
+
+        //get CPU num
+        System.out.println(Runtime.getRuntime().availableProcessors());
     }
 }
 
@@ -177,5 +280,9 @@ class Menu {
 
     enum Type {
         FISH,MEAT,OTHER
+    }
+
+    enum CalorieType {
+        LOW, NORMAL, HIGH
     }
 }
