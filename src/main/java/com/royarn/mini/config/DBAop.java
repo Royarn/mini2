@@ -18,14 +18,20 @@ public class DBAop implements PriorityOrdered {
 
     private Logger logger = LoggerFactory.getLogger(DBAop.class);
 
-    @Before("execution(* com.royarn.mini.service..*.find*(..)) || execution(* com.royarn.mini.service..*.get*(..))")
+    @Before("execution(* com.royarn.mini.service..*.list*(..)) || execution(* com.royarn.mini.service..*.get*(..))")
     public void setReadDataSourceType() {
         DataSourceContextHolder.read();
         logger.info("切换数据库到read ... ");
     }
 
-    @Before("execution(* com.royarn.mini.service..*.insert*(..)) || execution(* com.royarn.mini.service..*.update*(..))")
+    @Before("execution(* com.royarn.mini.service..*.insert*(..)) || execution(* com.royarn.mini.service..*.batch*(..))")
     public void setWriteDataSourceType() {
+        DataSourceContextHolder.write();
+        logger.info("切换数据库到write ... ");
+    }
+
+    @Before("execution(* com.royarn.mini.service..*.update*(..)) || execution(* com.royarn.mini.service..*.delete*(..))")
+    public void setWriteDataSourceTypes() {
         DataSourceContextHolder.write();
         logger.info("切换数据库到write ... ");
     }

@@ -5,7 +5,7 @@
 
 <generatorConfiguration>
     <classPathEntry
-            location="D:/project/repo/mysql/mysql-connector-java/5.1.28/mysql-connector-java-5.1.28.jar"/>
+            location="D:/project/repo_reject/mysql/mysql-connector-java/5.1.28/mysql-connector-java-5.1.28.jar"/>
 
     <context id="DB2Tables" targetRuntime="MyBatis3" defaultModelType="flat">
 
@@ -17,8 +17,8 @@
         <property name="endingDelimiter" value="`" />
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://172.16.35.96:3306/test?generateSimpleParameterMetadata=true"
-                        userId="route" password="123456">
+                        connectionURL="jdbc:mysql://localhost:3306/test?generateSimpleParameterMetadata=true"
+                        userId="root" password="123456">
         </jdbcConnection>
 
         <javaTypeResolver>
@@ -45,7 +45,17 @@
             <property name="exampleMethodVisibility" value="public"/>
         </javaClientGenerator>
 
-        <table  tableName="t_user" domainObjectName="LocalUser">
+        <table  tableName="t_role" domainObjectName="Role">
+            <ignoreColumn column="modify_time" />
+        </table>
+        <table  tableName="t_user_role" domainObjectName="UserRole">
+            <ignoreColumn column="modify_time" />
+        </table>
+        <table  tableName="t_menu" domainObjectName="Menu">
+            <ignoreColumn column="modify_time" />
+        </table>
+        <table  tableName="t_menu_role" domainObjectName="MenuRole">
+            <ignoreColumn column="modify_time" />
         </table>
     </context>
 </generatorConfiguration>

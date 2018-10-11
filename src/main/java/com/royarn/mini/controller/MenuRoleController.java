@@ -1,34 +1,37 @@
 package com.royarn.mini.controller;
 
 import com.royarn.mini.config.Result;
-import com.royarn.mini.entity.LocalUser;
-import com.royarn.mini.service.UserService;
-import com.royarn.mini.util.CollectionUtil;
-import com.royarn.mini.util.StringUtils;
+import com.royarn.mini.entity.MenuRole;
+import com.royarn.mini.service.MenuRoleService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+
 import java.util.List;
-import static com.royarn.mini.config.Result.*;
+
+import static com.royarn.mini.config.Result.error;
+import static com.royarn.mini.config.Result.ok;
 
 /**
- * @author lizq
- * @Description: ${todo}
- * @date 2018/6/28 16:52
+ * Description:
+ *
+ * @author dell
+ * @date 2018-10-11
  */
+
 @RestController
-@RequestMapping("/app/local")
-public class UserController {
+@RequestMapping(value = "/app/menu_role")
+public class MenuRoleController {
 
     @Resource
-    private UserService service;
+    private MenuRoleService service;
 
-    @ApiOperation(value = "查询本地用户")
+    @ApiOperation(value = "查询所有功能")
     @GetMapping("/list")
     public Result list() {
-        List<LocalUser> userList = service.list();
+        List<MenuRole> userList = service.list();
         return ok().property("users", userList);
     }
 
@@ -42,11 +45,11 @@ public class UserController {
 
     @ApiOperation(value = "添加用户")
     @PostMapping("/add")
-    public Result save(@RequestBody LocalUser user) {
-        if (user == null) {
+    public Result save(@RequestBody MenuRole menuRole) {
+        if (menuRole == null) {
             return error("用户信息为空");
         }
-        service.insert(user);
+        service.insert(menuRole);
         return ok();
     }
 

@@ -1,46 +1,41 @@
 package com.royarn.mini.service;
 
-import com.royarn.mini.entity.LocalUser;
+import com.royarn.mini.entity.UserRole;
 
 import java.util.List;
 
-/**
- * @author lizq
- * @Description: ${todo}
- * @date 2018/6/28 16:53
- */
-public interface UserService {
+public interface UserRoleService {
 
     /**
      * @param user
      * @return
      */
-    List<LocalUser> get(List<String> ids);
+    List<UserRole> get(List<String> ids);
 
     /**
      *
      * @return
      */
-    List<LocalUser> list();
+    List<UserRole> list();
 
     /**
      *
      * @param user
      * @return
      */
-    int insert(LocalUser user);
+    int insert(UserRole user);
 
     /**
      * @param users
      * @return
      */
-    List<LocalUser> batchInsert(List<LocalUser> users);
+    List<UserRole> batchInsert(List<UserRole> userRoles);
 
     /**
      * @param user
      * @return
      */
-    LocalUser update(LocalUser user);
+    UserRole update(UserRole userRole);
 
     /**
      * @param ids

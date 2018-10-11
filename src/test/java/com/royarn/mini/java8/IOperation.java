@@ -1,6 +1,7 @@
 package com.royarn.mini.java8;
 
-import com.royarn.mini.util.Collectionutil;
+
+import com.royarn.mini.util.CollectionUtil;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -59,7 +60,7 @@ public class IOperation {
      * @param <T>
      */
     public static <T> void processNumber(List<T> list, Consumer<T> consumer) {
-        if (Collectionutil.isEmpty(list)) return;
+        if (CollectionUtil.isEmpty(list)) return;
         for (T t : list) {
             consumer.accept(t);
         }
