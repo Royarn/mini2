@@ -1,8 +1,4 @@
-server:
-  port: 8089
 spring:
-  application:
-    name: app
   aop:
     proxy-target-class: true
   datasource:
@@ -42,6 +38,8 @@ spring:
                     packages: com.royarn.mini.entity
     producer:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  application:
+    name: app
 mybatis:
   mapperLocations: classpath:mapper/*.xml
   typeAliasesPackage:
@@ -54,3 +52,9 @@ management:
       exposure:
 
         include: "*"
+server:
+  port: 8089
+  tomcat:
+    accesslog:
+      enabled: false
+    basedir: tomcat
