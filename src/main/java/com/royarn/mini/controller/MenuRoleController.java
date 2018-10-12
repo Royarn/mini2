@@ -3,6 +3,8 @@ package com.royarn.mini.controller;
 import com.royarn.mini.config.Result;
 import com.royarn.mini.entity.MenuRole;
 import com.royarn.mini.service.MenuRoleService;
+import com.royarn.mini.util.CollectionUtil;
+import com.royarn.mini.util.StringUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -35,46 +37,46 @@ public class MenuRoleController {
         return ok().property("users", userList);
     }
 
-    @ApiOperation(value = "查询指定用户")
+    @ApiOperation(value = "查询角色对应功能列表")
     @PostMapping(value = "/get")
-    public Result get(@RequestBody List<String> ids) {
-        if (CollectionUtils.isEmpty(ids))
-            return error("用户标识不能为空");
-        return ok().property("users", service.get(ids));
+    public Result get(@RequestBody List<String> roleIds) {
+        if (CollectionUtils.isEmpty(roleIds))
+            return error("角色ID不能为空");
+        return ok().property("roles", service.get(roleIds));
     }
 
-    @ApiOperation(value = "添加用户")
+    @ApiOperation(value = "角色添加功能")
     @PostMapping("/add")
     public Result save(@RequestBody MenuRole menuRole) {
-        if (menuRole == null) {
-            return error("用户信息为空");
+        if (null == menuRole || StringUtils.isEmpty(menuRole.getRoleId())) {
+            return error("角色信息为空");
         }
         service.insert(menuRole);
         return ok();
     }
 
-    @ApiOperation(value = "批量添加用户")
+    @ApiOperation(value = "批量添加功能")
     @PostMapping(value = "/batch")
-    public Result batch(@RequestBody List<LocalUser> users) {
-        if (CollectionUtils.isEmpty(users))
-            return error("用户信息为空");
-        return ok().property("users", service.batchInsert(users));
+    public Result batch(@RequestBody List<MenuRole> menuRoles) {
+        if (CollectionUtils.isEmpty(menuRoles))
+            return error("角色信息为空");
+        return ok().property("roles", service.batchInsert(menuRoles));
     }
 
-    @ApiOperation(value = "更新用户信息")
+    @ApiOperation(value = "更新角色功能")
     @PostMapping(value = "/update")
-    public Result update(@RequestBody LocalUser user) {
-        if (user == null || StringUtils.isEmpty(user.getId()))
-            return error("用户ID为空");
-        return ok().property("user", service.update(user));
+    public Result update(@RequestBody MenuRole menuRole) {
+        if (menuRole == null || StringUtils.isEmpty(menuRole.getId()))
+            return error("角色ID为空");
+        return ok().property("role", service.update(menuRole));
     }
 
-    @ApiOperation(value = "删除用户")
+    @ApiOperation(value = "删除角色对应功能")
     @PostMapping(value = "/delete")
-    public Result delete(@RequestBody List<String> ids) {
-        if (CollectionUtil.isEmpty(ids))
-            return error("用户ID为空");
-        service.delete(ids);
+    public Result delete(@RequestBody List<String> roles) {
+        if (CollectionUtil.isEmpty(roles))
+            return error("角色ID为空");
+        service.delete(roles);
         return ok();
     }
 }

@@ -236,4 +236,15 @@
     set `name` = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=CHAR}
   </update>
+
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into t_role
+    values
+    <foreach collection="roles" item="ele" index="index" separator=",">
+      (
+      #{ele.id},
+      #{ele.name}
+      )
+    </foreach>
+  </insert>
 </mapper>

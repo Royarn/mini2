@@ -50,6 +50,9 @@ public class MenuRoleServiceImpl implements MenuRoleService {
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = BusinessException.class)
     public int batchInsert(List<MenuRole> menuRoles) {
+        for (MenuRole menuRole : menuRoles) {
+            menuRole.setId(UUID.randomUUID().toString());
+        }
         return mapper.batchInsert(menuRoles);
     }
 
