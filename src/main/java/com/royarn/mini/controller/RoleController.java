@@ -3,7 +3,6 @@ package com.royarn.mini.controller;
 import com.royarn.mini.config.Result;
 import com.royarn.mini.entity.Role;
 import com.royarn.mini.service.RoleService;
-import com.royarn.mini.support.BusinessException;
 import com.royarn.mini.util.CollectionUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
