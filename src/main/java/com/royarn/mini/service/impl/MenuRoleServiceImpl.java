@@ -7,6 +7,7 @@ import com.royarn.mini.service.MenuRoleService;
 import com.royarn.mini.support.BusinessException;
 import com.royarn.mini.util.CollectionUtil;
 import com.royarn.mini.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ import java.util.UUID;
 @Service
 public class MenuRoleServiceImpl implements MenuRoleService {
 
+    @Autowired
     private MenuRoleMapper mapper;
 
     @Override
@@ -67,6 +69,7 @@ public class MenuRoleServiceImpl implements MenuRoleService {
         List<MenuRole> menuRoles = mapper.selectByExample(example);
         if (CollectionUtil.isNotEmpty(menuRoles))
             throw new BusinessException("该角色已配置！");
+        mapper.updateByPrimaryKey(menuRole);
         return menuRole;
     }
 

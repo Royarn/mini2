@@ -93,4 +93,6 @@ public interface MenuMapper {
      * @mbggenerated Thu Oct 11 17:50:01 CST 2018
      */
     int updateByPrimaryKey(Menu record);
+
+    int batachInsert(@Param("menuList") List<Menu> menuList);
 }

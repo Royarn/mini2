@@ -1,6 +1,8 @@
 spring:
   aop:
     proxy-target-class: true
+  messages:
+    basename: i18n
   datasource:
     name: writedb
     #url: jdbc:mysql://192.168.12.76:7001/test?useUnicode=true&characterEncoding=utf8&useCursorFetch=true&defaultFetchSize=500&allowMultiQueries=true&rewriteBatchedStatements=true&useSSL=false

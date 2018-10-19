@@ -251,4 +251,16 @@
       user_id = #{userId,jdbcType=CHAR}
     where id = #{id,jdbcType=CHAR}
   </update>
+
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into t_user_role (id, role_id, user_id)
+    values
+    <foreach collection="userRoles" item="ele" index="index" separator=",">
+      (
+      #{ele.id},
+      #{ele.roleId},
+      #{ele.userId}
+      )
+    </foreach>
+  </insert>
 </mapper>

@@ -59,6 +59,8 @@ public class RoleController {
         return ok();
     }
 
+    @ApiOperation("删除角色")
+    @PostMapping(value = "/delete")
     public Result delete(@RequestBody List<String> ids) {
         if (CollectionUtil.isEmpty(ids)) {
             return error("角色列表不能为空！");

@@ -1,10 +1,18 @@
 package com.royarn.mini.service.impl;
 
+import com.royarn.mini.dao.MenuMapper;
 import com.royarn.mini.entity.Menu;
+import com.royarn.mini.entity.MenuExample;
 import com.royarn.mini.service.MenuService;
+import com.royarn.mini.support.BusinessException;
+import com.royarn.mini.util.CollectionUtil;
+import com.royarn.mini.util.StringUtils;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Description:
@@ -14,33 +22,63 @@ import java.util.List;
  */
 @Service
 public class MenuServiceImpl implements MenuService {
+
+    @Resource
+    private MenuMapper mapper;
+
     @Override
     public List<Menu> get(List<String> ids) {
-        return null;
+        MenuExample example = new MenuExample();
+        MenuExample.Criteria criteria = example.createCriteria();
+        criteria.andIdIn(ids);
+        return mapper.selectByExample(example);
     }
 
     @Override
     public List<Menu> list() {
-        return null;
+        return mapper.selectByExample(null);
     }
 
     @Override
     public int insert(Menu menu) {
-        return 0;
+        if (StringUtils.isEmpty(menu.getName())) {
+            throw new BusinessException("名称不能为空！");
+        }
+        menu.setId(UUID.randomUUID().toString());
+        return mapper.insert(menu);
     }
 
     @Override
     public List<Menu> batchInsert(List<Menu> menuList) {
-        return null;
+        List<Menu> realList = new ArrayList<>();
+        for (Menu menu : menuList) {
+            if (StringUtils.isNotEmpty(menu.getName())) {
+                menu.setId(UUID.randomUUID().toString());
+                realList.add(menu);
+            }
+        }
+        mapper.batachInsert(realList);
+        return realList;
     }
 
     @Override
     public Menu update(Menu menu) {
-        return null;
+        if (StringUtils.isEmpty(menu.getName())) {throw new BusinessException("名称不能为空！");}
+        MenuExample example = new MenuExample();
+        MenuExample.Criteria criteria = example.createCriteria();
+        criteria.andIdNotEqualTo(menu.getId());
+        criteria.andNameEqualTo(menu.getName());
+        List<Menu> menuList = mapper.selectByExample(example);
+        if (CollectionUtil.isNotEmpty(menuList)) {throw new BusinessException("功能已存在！");}
+        mapper.updateByPrimaryKey(menu);
+        return menu;
     }
 
     @Override
     public int delete(List<String> ids) {
-        return 0;
+        MenuExample example = new MenuExample();
+        MenuExample.Criteria criteria = example.createCriteria();
+        criteria.andIdIn(ids);
+        return mapper.deleteByExample(example);
     }
 }

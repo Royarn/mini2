@@ -268,4 +268,17 @@
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=CHAR}
   </update>
+
+  <insert id="batachInsert" parameterType="java.util.List">
+    insert into t_menu (id, `name`, parent_id, remark)
+    values
+    <foreach collection="menuList" item="ele" index="index" separator=",">
+      (
+      #{ele.id},
+      #{ele.name},
+      #{ele.parentId},
+      #{ele.remark}
+      )
+    </foreach>
+  </insert>
 </mapper>

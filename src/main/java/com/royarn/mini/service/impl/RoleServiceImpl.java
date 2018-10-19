@@ -66,6 +66,7 @@ public class RoleServiceImpl implements RoleService {
         RoleExample example = new RoleExample();
         RoleExample.Criteria criteria = example.createCriteria();
         criteria.andNameEqualTo(role.getName());
+        criteria.andIdNotEqualTo(role.getId());
         List<Role> roles = mapper.selectByExample(example);
         if (CollectionUtil.isNotEmpty(roles)) {throw new BusinessException("角色名称重复！");}
         mapper.updateByPrimaryKey(role);

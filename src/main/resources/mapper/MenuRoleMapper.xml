@@ -252,14 +252,14 @@
     where id = #{id,jdbcType=CHAR}
   </update>
 
-  <insert id="menuRoles" parameterType="java.util.List">
+  <insert id="batchInsert" parameterType="java.util.List">
     insert into t_menu_role(id, role_id, menu_id)
     values
     <foreach collection="menuRoles" item="ele" index="index" separator=",">
       (
       #{ele.id},
-      #{ele.role_id},
-      #{ele.menu_id}
+      #{ele.roleId},
+      #{ele.menuId}
       )
     </foreach>
   </insert>

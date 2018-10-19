@@ -238,7 +238,7 @@
   </update>
 
   <insert id="batchInsert" parameterType="java.util.List">
-    insert into t_role
+    insert into t_role(id, `name`)
     values
     <foreach collection="roles" item="ele" index="index" separator=",">
       (

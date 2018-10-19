@@ -33,8 +33,7 @@ public class MenuRoleController {
     @ApiOperation(value = "查询所有功能")
     @GetMapping("/list")
     public Result list() {
-        List<MenuRole> userList = service.list();
-        return ok().property("users", userList);
+        return ok().property("users", service.list());
     }
 
     @ApiOperation(value = "查询角色对应功能列表")

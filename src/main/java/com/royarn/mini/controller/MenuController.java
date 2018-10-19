@@ -66,14 +66,15 @@ public class MenuController {
     public Result update(@RequestBody Menu menu) {
         if (menu == null || StringUtils.isEmpty(menu.getId()))
             return error("功能ID为空");
-        return ok().property("user", service.update(menu));
+        return ok().property("menu", service.update(menu));
     }
 
     @ApiOperation(value = "删除功能")
     @PostMapping(value = "/delete")
     public Result delete(@RequestBody List<String> ids) {
-        if (CollectionUtil.isEmpty(ids))
-            return error("用户ID为空");
+        if (CollectionUtil.isEmpty(ids)) {
+            return error("菜单ID为空");
+        }
         service.delete(ids);
         return ok();
     }

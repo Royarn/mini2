@@ -93,4 +93,6 @@ public interface UserRoleMapper {
      * @mbggenerated Thu Oct 11 17:50:01 CST 2018
      */
     int updateByPrimaryKey(UserRole record);
+
+    int batchInsert(@Param("userRoles") List<UserRole> userRoles);
 }
