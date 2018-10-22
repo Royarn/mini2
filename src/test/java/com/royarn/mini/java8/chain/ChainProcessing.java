@@ -11,6 +11,7 @@ package com.royarn.mini.java8.chain;
  * 责任链模式  --构造一个代理类来构建流程
  *  使用到了模板模式 --
  *  精髓在于每一个步骤处理结束后会返回该操作对象以供后续使用
+ *  在lambda表达式中，实例也可以通过lamda生成
  * @param <T>
  */
 public abstract class ChainProcessing<T> {
