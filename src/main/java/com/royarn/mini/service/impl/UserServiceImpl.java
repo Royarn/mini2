@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = BusinessException.class)
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = BusinessException.class)
     public int insert(LocalUser user) {
         if (StringUtils.isBlank(user.getName()))
             throw new BusinessException("用户名称不能为空！");
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = BusinessException.class)
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = BusinessException.class)
     public List<LocalUser> batchInsert(List<LocalUser> users) {
         //先找无效的数据
         List<LocalUser> realUsers = new ArrayList<>();
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = BusinessException.class)
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = BusinessException.class)
     public LocalUser update(LocalUser user) {
         //更新前校验
         LocalUserExample example = new LocalUserExample();
@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = BusinessException.class)
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = BusinessException.class)
     public int delete(List<String> ids) {
         LocalUserExample example = new LocalUserExample();
         LocalUserExample.Criteria criteria = example.createCriteria();

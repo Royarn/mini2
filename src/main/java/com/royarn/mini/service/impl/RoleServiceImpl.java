@@ -41,7 +41,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = BusinessException.class)
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = BusinessException.class)
     public int insert(Role role) {
         if (StringUtils.isEmpty(role.getName())) {
             throw new BusinessException("角色名称不能为空！");
@@ -51,7 +51,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = BusinessException.class)
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = BusinessException.class)
     public List<Role> batchInsert(List<Role> roles) {
         for (Role role : roles) {
             role.setId(UUID.randomUUID().toString());
@@ -61,7 +61,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = BusinessException.class)
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = BusinessException.class)
     public Role update(Role role) {
         RoleExample example = new RoleExample();
         RoleExample.Criteria criteria = example.createCriteria();
@@ -74,7 +74,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = BusinessException.class)
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = BusinessException.class)
     public int delete(List<String> ids) {
         RoleExample example = new RoleExample();
         RoleExample.Criteria criteria = example.createCriteria();

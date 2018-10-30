@@ -8,6 +8,8 @@ import com.royarn.mini.support.BusinessException;
 import com.royarn.mini.util.CollectionUtil;
 import com.royarn.mini.util.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -40,6 +42,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = BusinessException.class)
     public int insert(Menu menu) {
         if (StringUtils.isEmpty(menu.getName())) {
             throw new BusinessException("名称不能为空！");
@@ -49,6 +52,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = BusinessException.class)
     public List<Menu> batchInsert(List<Menu> menuList) {
         List<Menu> realList = new ArrayList<>();
         for (Menu menu : menuList) {
@@ -62,6 +66,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = BusinessException.class)
     public Menu update(Menu menu) {
         if (StringUtils.isEmpty(menu.getName())) {throw new BusinessException("名称不能为空！");}
         MenuExample example = new MenuExample();
@@ -75,6 +80,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = BusinessException.class)
     public int delete(List<String> ids) {
         MenuExample example = new MenuExample();
         MenuExample.Criteria criteria = example.createCriteria();

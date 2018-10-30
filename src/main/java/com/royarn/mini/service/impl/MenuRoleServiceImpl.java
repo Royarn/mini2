@@ -41,7 +41,7 @@ public class MenuRoleServiceImpl implements MenuRoleService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = BusinessException.class)
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = BusinessException.class)
     public int insert(MenuRole menuRole) {
         if (StringUtils.isEmpty(menuRole.getMenuId()) || StringUtils.isEmpty(menuRole.getRoleId()))
             throw new BusinessException("数据错误");
@@ -50,7 +50,7 @@ public class MenuRoleServiceImpl implements MenuRoleService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = BusinessException.class)
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = BusinessException.class)
     public int batchInsert(List<MenuRole> menuRoles) {
         for (MenuRole menuRole : menuRoles) {
             menuRole.setId(UUID.randomUUID().toString());
@@ -59,7 +59,7 @@ public class MenuRoleServiceImpl implements MenuRoleService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = BusinessException.class)
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = BusinessException.class)
     public MenuRole update(MenuRole menuRole) {
         MenuRoleExample example = new MenuRoleExample();
         MenuRoleExample.Criteria criteria = example.createCriteria();
@@ -74,7 +74,7 @@ public class MenuRoleServiceImpl implements MenuRoleService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = BusinessException.class)
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = BusinessException.class)
     public int delete(List<String> ids) {
         MenuRoleExample example = new MenuRoleExample();
         MenuRoleExample.Criteria criteria = example.createCriteria();
