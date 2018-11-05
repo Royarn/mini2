@@ -27,19 +27,6 @@ spring:
       uri: mongodb://192.168.12.78:9090/np_config
       host: 192.168.12.78
       port: 9090
-  kafka:
-    bootstrap-servers: 192.168.12.78:9092
-    consumer:
-      group-id: test
-      auto-offset-reset: earliest
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties:
-              spring:
-                json:
-                  trusted:
-                    packages: com.royarn.mini.entity
-    producer:
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
   application:
     name: mini
 mybatis:
@@ -68,3 +55,7 @@ dubbo:
     port: 20881
   registry:
     address: zookeeper://192.168.12.149:2181
+mongodb:
+  host: 192.168.12.149
+  port: 27017
+  dataSource: np_config

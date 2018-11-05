@@ -1,11 +1,14 @@
 package com.royarn.mini.service.impl;
 
+import com.royarn.mini.config.ResultCode;
 import com.royarn.mini.dao.LocalUserMapper;
 import com.royarn.mini.entity.LocalUser;
 import com.royarn.mini.entity.LocalUserExample;
+import com.royarn.mini.entity.MsgInfo;
 import com.royarn.mini.service.UserService;
 import com.royarn.mini.support.BusinessException;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +28,9 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private LocalUserMapper mapper;
+
+    @Resource
+    private MongoTemplate template;
 
     public List<LocalUser> get(List<String> ids) {
         LocalUserExample example = new LocalUserExample();
@@ -113,6 +119,23 @@ public class UserServiceImpl implements UserService {
         LocalUserExample.Criteria criteria = example.createCriteria();
         criteria.andIdIn(ids);
         return mapper.deleteByExample(example);
+    }
+
+    @Override
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = BusinessException.class)
+    public String insertDTS() {
+        //mongo transaction
+        MsgInfo info = new MsgInfo();
+        info.setCode(ResultCode.suc.getMessage());
+        info.setInfo("DTS has committed");
+        template.insert(info);
+        //local transaction
+        LocalUser user = new LocalUser();
+        user.setId("96446dec-55e7-465b-8fdc-16b08f08b509");
+        user.setName("admin");
+        user.setPassword("admin444");
+        mapper.insert(user);
+        return ResultCode.suc.getMessage();
     }
 
     private boolean checkIfExist(String name) {

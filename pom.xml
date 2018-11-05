@@ -131,6 +131,13 @@
 			</exclusions>
 		</dependency>
 
+		<!--hot deploy-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
+
 		<!--API接口定义-->
 		<dependency>
 			<groupId>com.royarn</groupId>

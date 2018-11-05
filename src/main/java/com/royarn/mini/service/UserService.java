@@ -47,4 +47,9 @@ public interface UserService {
      * @return
      */
     int delete(List<String> ids);
+
+    /**
+     * @return
+     */
+    String insertDTS();
 }
