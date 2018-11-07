@@ -1,5 +1,6 @@
 package com.royarn.mini.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.royarn.mini.config.ResultCode;
 import com.royarn.mini.dao.LocalUserMapper;
 import com.royarn.mini.entity.LocalUser;
@@ -9,9 +10,13 @@ import com.royarn.mini.service.UserService;
 import com.royarn.mini.support.BusinessException;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -32,6 +37,12 @@ public class UserServiceImpl implements UserService {
     @Resource
     private MongoTemplate template;
 
+    @Resource
+    private KafkaTemplate kafkaTemplate;
+
+    @Resource
+    private PlatformTransactionManager txManager;
+
     public List<LocalUser> get(List<String> ids) {
         LocalUserExample example = new LocalUserExample();
         LocalUserExample.Criteria criteria = example.createCriteria();
@@ -45,16 +56,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = BusinessException.class)
     public int insert(LocalUser user) {
-        if (StringUtils.isBlank(user.getName()))
-            throw new BusinessException("用户名称不能为空！");
-        if (StringUtils.isBlank(user.getPassword()))
-            throw new BusinessException("密码不能为空！");
-        if (checkIfExist(user.getName()))
-            throw new BusinessException("用户名已存在！");
-        user.setId(UUID.randomUUID().toString());
-        return mapper.insert(user);
+        TransactionStatus status = txManager.getTransaction(new DefaultTransactionDefinition());
+        int result;
+        try {
+            //insert users
+            if (StringUtils.isBlank(user.getName())) { throw new BusinessException("用户名称不能为空！");}
+            if (StringUtils.isBlank(user.getPassword())) { throw new BusinessException("密码不能为空！");}
+            if (checkIfExist(user.getName())) { throw new BusinessException("用户名已存在！");}
+            user.setId(UUID.randomUUID().toString());
+            result = mapper.insert(user);
+            if (result == 0 || result != 0) {
+                //insert shops
+                Map<String, String> map = new HashMap<>();
+                map.put("id", user.getId());
+                map.put("code", "200");
+                map.put("info", user.getRemark());
+                kafkaTemplate.send("test", JSON.toJSONString(map));
+            }
+        } catch (Exception e) {
+            txManager.rollback(status);
+        } finally {
+            txManager.commit(status);
+        }
+
+        return 0;
     }
 
     @Override

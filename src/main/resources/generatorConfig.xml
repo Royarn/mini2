@@ -45,16 +45,16 @@
             <property name="exampleMethodVisibility" value="public"/>
         </javaClientGenerator>
 
-        <table  tableName="t_role" domainObjectName="Role">
-            <ignoreColumn column="modify_time" />
-        </table>
-        <table  tableName="t_user_role" domainObjectName="UserRole">
-            <ignoreColumn column="modify_time" />
-        </table>
-        <table  tableName="t_menu" domainObjectName="Menu">
-            <ignoreColumn column="modify_time" />
-        </table>
-        <table  tableName="t_menu_role" domainObjectName="MenuRole">
+        <!--<table  tableName="t_role" domainObjectName="Role">-->
+            <!--<ignoreColumn column="modify_time" />-->
+        <!--</table>-->
+        <!--<table  tableName="t_user_role" domainObjectName="UserRole">-->
+            <!--<ignoreColumn column="modify_time" />-->
+        <!--</table>-->
+        <!--<table  tableName="t_menu" domainObjectName="Menu">-->
+            <!--<ignoreColumn column="modify_time" />-->
+        <!--</table>-->
+        <table  tableName="tx_data">
             <ignoreColumn column="modify_time" />
         </table>
     </context>

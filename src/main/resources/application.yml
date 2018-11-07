@@ -22,11 +22,6 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
   profiles:
     active: dev
-  data:
-    mongodb:
-      uri: mongodb://192.168.12.78:9090/np_config
-      host: 192.168.12.78
-      port: 9090
   application:
     name: mini
 mybatis:
@@ -59,3 +54,10 @@ mongodb:
   host: 192.168.12.149
   port: 27017
   dataSource: np_config
+kafka:
+  producer:
+    server: 192.168.12.149
+    retries: 0
+    batchSize: 4096
+    linger: 1
+    bufferMemory: 40960
