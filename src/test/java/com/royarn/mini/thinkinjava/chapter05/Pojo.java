@@ -37,6 +37,7 @@ public class Pojo {
 class Test extends Art{
 
     public Test() {
+        super("sdf");
         System.out.println("Test constructor");
     }
 

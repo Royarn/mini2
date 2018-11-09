@@ -8,25 +8,28 @@ package com.royarn.mini.thinkinjava.chapter06;
  */
 public class Art {
 
-    protected Art() {
-        System.out.println("Art constructor");
+    protected Art(String name) {
+        System.out.println("Art constructor" + name);
     }
 }
 
 class Drawing extends Art {
 
-    protected Drawing() {
+    protected Drawing(String name) {
+        super("Art");
         System.out.println("Drawing constructor");
     }
 }
 
 class Cartoon extends Drawing {
 
-    public Cartoon() {
+    public Cartoon(int id , String name) {
+        super("blink");
         System.out.println("Cartoon constructor");
     }
 
     public static void main(String[] args) {
-        new Cartoon();
+        Cartoon cartoon = new Cartoon(1, "1");
+        System.out.println(cartoon);
     }
 }
