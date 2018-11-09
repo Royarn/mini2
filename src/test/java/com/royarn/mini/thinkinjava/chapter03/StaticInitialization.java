@@ -9,16 +9,26 @@ package com.royarn.mini.thinkinjava.chapter03;
  */
 public class StaticInitialization {
 
+    static int i;
+
     public static void main(String[] args) {
-        /*System.out.println("Creating new Cupboard() in main ");
-        new Cupboard();*/
+        System.out.println("Creating new Cupboard() in main ");
+        //new Cupboard();
 
-        System.out.println("Inside main()");
-        Cups.c1.f(99);
+//        System.out.println("Inside main()");
+//        Cups.c1.f(99);
+//
+//        System.out.println("Creating new Cupboard() in main");
+
+        System.out.println(StaticInitialization.i);
     }
-
     static Cup c1 = new Cup(3);
     static Cup c2 = new Cup(4);
+
+    static {
+        System.out.println(i);
+        i = 10;
+    }
 }
 
 class Bowl {
