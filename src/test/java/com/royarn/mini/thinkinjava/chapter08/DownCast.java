@@ -1,7 +1,5 @@
 package com.royarn.mini.thinkinjava.chapter08;
 
-import java.util.Arrays;
-
 /**
  * Description:
  *
@@ -15,7 +13,7 @@ public class DownCast {
                 new Userful(),
                 new MoreUseful()
         };
-        userfuls[0].f();
+        ((MoreUseful)userfuls[0]).l();
         ((MoreUseful)userfuls[1]).l();
     }
 }
