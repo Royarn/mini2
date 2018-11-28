@@ -1,5 +1,9 @@
 package com.royarn.mini.thinkinjava.chapter09;
 
+import com.royarn.mini.thinkinjava.chapter10.Parcel9;
+
+import java.util.Arrays;
+
 /**
  * Description:
  *
@@ -7,6 +11,27 @@ package com.royarn.mini.thinkinjava.chapter09;
  * @date 2018-11-19
  */
 public class Music4 {
+
+    static void tuneAll(Instrument[] instruments) {
+        Arrays.asList(instruments)
+                .stream()
+                .forEach(Music4::tune);
+    }
+
+    static void tune(Instrument instrument) {
+        instrument.play(Note.MIDDLE_C);
+    }
+
+    public static void main(String[] args) {
+        Instrument[] instruments = {
+          new Wind(),
+          new Percussion(),
+                new Stringed(),
+                new Brass(),
+                new WoodWind()
+        };
+        tuneAll(instruments);
+    }
 }
 
 enum Note {
@@ -84,15 +109,15 @@ class Brass extends Wind {
         System.out.println("Brass.adjust()");
     }
 }
-`
+
 class WoodWind extends Wind {
     @Override
     void play(Note note) {
-
+        System.out.println("WoodWind.play() " + note);
     }
 
     @Override
     String what() {
-        return super.what();
+        return "WoodWind";
     }
 }
