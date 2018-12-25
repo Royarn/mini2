@@ -37,27 +37,27 @@ management:
 
         include: "*"
 server:
-  port: 8089
+  port: 9102
   tomcat:
     accesslog:
       enabled: false
     basedir: tomcat
-dubbo:
-  application:
-    name: mini
-  protocol:
-    name: dubbo
-    port: 20881
-  registry:
-    address: zookeeper://192.168.12.149:2181
+#dubbo:
+#  application:
+#    name: mini
+#  protocol:
+#    name: dubbo
+#    port: 20881
+#  registry:
+#    address: zookeeper://192.168.12.148:2181
 mongodb:
-  host: 192.168.12.149
+  host: 172.16.34.208
   port: 27017
   dataSource: np_config
-kafka:
-  producer:
-    server: 192.168.12.149
-    retries: 0
-    batchSize: 4096
-    linger: 1
-    bufferMemory: 40960
+#kafka:
+#  producer:
+#    server: 192.168.12.148
+#    retries: 0
+#    batchSize: 4096
+#    linger: 1
+#    bufferMemory: 40960

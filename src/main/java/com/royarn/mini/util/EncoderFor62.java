@@ -1,4 +1,4 @@
-package com.netposa.npconfig.support.encoder;
+package com.royarn.mini.util;
 
 import java.util.Stack;
 
@@ -39,7 +39,7 @@ public class EncoderFor62 {
      * @param ident62
      * @return
      */
-    public static String convertBase62ToDecimal_v2( String ident62 ) {
+    public static String convertBase62ToDecimal_v2(String ident62 ) {
         Long dst = 0L;
         for(int i=0; i<ident62.length(); i++)
         {
