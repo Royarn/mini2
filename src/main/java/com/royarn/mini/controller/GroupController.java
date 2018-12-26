@@ -3,8 +3,10 @@ package com.royarn.mini.controller;
 import com.google.gson.Gson;
 import com.royarn.mini.config.Result;
 import com.royarn.mini.entity.Group;
+import com.royarn.mini.entity.PermissionGroup;
 import com.royarn.mini.service.GroupService;
 import com.royarn.mini.support.BusinessException;
+import com.royarn.mini.util.CollectionUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +45,7 @@ public class GroupController {
     @DeleteMapping("/group/{id}")
     public Result delete(@PathVariable String id) {
         service.delete(id);
-        return ok().property("group", "");
+        return ok().property("id", id);
     }
 
     @ApiOperation("修改分组")
@@ -116,5 +118,16 @@ public class GroupController {
     public Result getCameras(@PathVariable String id,
                              @PathVariable String userId) {
         return ok().property("list", service.getCameras(id, userId));
+    }
+
+    @ApiOperation("查询摄像机本部权限")
+    @GetMapping("/{id}/self/{userId}")
+    public Result getSlef(@PathVariable String id,
+                             @PathVariable String userId) {
+        List<PermissionGroup> groupList = service.getSelf(id, userId);
+        if (CollectionUtil.isEmpty(groupList)) {
+            return ok().property("flag", false);
+        }
+        return ok().property("flag", true);
     }
 }

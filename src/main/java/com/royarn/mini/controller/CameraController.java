@@ -33,7 +33,7 @@ public class CameraController {
         if (StringUtils.isEmpty(id)) {
             return null;
         }
-        return Result.ok().property("camera", service.selectOne(id));
+        return Result.ok().property("object", service.selectOne(id));
     }
 
     @ApiOperation("新增摄像机")

@@ -32,7 +32,7 @@ public class DeviceController {
     @PostMapping("/device/encoder")
     public Result addOne(@RequestBody String body) {
         String id = service.addOne(body).getId();
-        return ok().property("data", MessageUtil.MSG(id));
+        return ok().property("id", MessageUtil.MSG(id));
     }
 
     @ApiOperation("编辑设备")
@@ -52,7 +52,7 @@ public class DeviceController {
     @ApiOperation("设备详情")
     @GetMapping("/device/encoder/{id}")
     public Result get(@PathVariable String id) {
-        return ok().property("data", service.selectOne(id));
+        return ok().property("object", service.selectOne(id));
     }
 
     @ApiOperation("查询分组的设备")

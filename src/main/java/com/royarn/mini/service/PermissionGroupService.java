@@ -2,6 +2,7 @@ package com.royarn.mini.service;
 
 import com.royarn.mini.entity.PermissionCamera;
 import com.royarn.mini.entity.PermissionGroup;
+import com.royarn.mini.entity.ReqCamera;
 
 import java.util.List;
 
@@ -26,5 +27,10 @@ public interface PermissionGroupService {
     /**
      * 分组权限提交
      */
-    void commit(String groupId, boolean flag, List<String> ids, String userId);
+    void groupCommit(String groupId, boolean flag, List<String> ids, String userId);
+
+    /**
+     * 摄像机权限提交
+     */
+    void cameraCommit(ReqCamera reqCamera);
 }

@@ -1,13 +1,14 @@
 package com.royarn.mini.controller;
 
+import com.google.gson.Gson;
 import com.royarn.mini.config.Result;
-import com.royarn.mini.entity.Camera;
+import com.royarn.mini.entity.ReqCamera;
 import com.royarn.mini.service.PermissionGroupService;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * Description:
@@ -16,7 +17,7 @@ import java.util.List;
  * @date 2018-12-24
  */
 @RestController
-@RequestMapping("/npauth")
+@RequestMapping(value = "/npauth", consumes = MediaType.ALL_VALUE)
 public class PermissionController {
 
     @Resource
@@ -34,15 +35,23 @@ public class PermissionController {
         return Result.ok().property("group", groupService.self(id));
     }
 
-    @ApiOperation("权限提交")
+    @ApiOperation("分组权限提交")
     @PutMapping("/v1/{id}/{userId}/{checked}")
-    public Result commit(@PathVariable String id,
+    public Result groupPermission(@PathVariable String id,
                          @PathVariable String userId,
                          @PathVariable boolean checked) {
 //        if (null == ids || ids.size() == 0) {
 //            groupService.commit(id, checked, null, userId);
 //        }
-        groupService.commit(id, checked, null, userId);
+        groupService.groupCommit(id, checked, null, userId);
+        return Result.ok();
+    }
+
+    @ApiOperation("摄像机权限提交")
+    @PostMapping(value = "/v1/camera/permission")
+    public Result cameraPermission(@RequestBody String body) {
+        ReqCamera reqCamera = new Gson().fromJson(body, ReqCamera.class);
+        groupService.cameraCommit(reqCamera);
         return Result.ok();
     }
 }

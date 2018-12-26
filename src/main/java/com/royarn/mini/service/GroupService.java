@@ -3,6 +3,7 @@ package com.royarn.mini.service;
 import com.mongodb.client.result.DeleteResult;
 import com.royarn.mini.entity.Camera;
 import com.royarn.mini.entity.Group;
+import com.royarn.mini.entity.PermissionGroup;
 
 import java.util.List;
 
@@ -67,4 +68,9 @@ public interface GroupService {
      * 查询分组下的摄像机以及所有权限
      */
     List<Camera> getCameras(String id, String userId);
+
+    /**
+     *
+     */
+    List<PermissionGroup> getSelf(String id, String userId);
 }

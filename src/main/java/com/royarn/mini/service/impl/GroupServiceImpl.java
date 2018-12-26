@@ -5,6 +5,7 @@ import com.royarn.mini.config.MongoConfig;
 import com.royarn.mini.entity.Camera;
 import com.royarn.mini.entity.Group;
 import com.royarn.mini.entity.PermissionCamera;
+import com.royarn.mini.entity.PermissionGroup;
 import com.royarn.mini.service.GroupService;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -100,5 +101,13 @@ public class GroupServiceImpl implements GroupService {
                 })
                 .collect(Collectors.toList());
         return cameras;
+    }
+
+    @Override
+    public List<PermissionGroup> getSelf(String id, String userId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("groupId").is(id));
+        query.addCriteria(Criteria.where("userId").is(userId));
+        return config.mongoTemplate().find(query, PermissionGroup.class);
     }
 }
