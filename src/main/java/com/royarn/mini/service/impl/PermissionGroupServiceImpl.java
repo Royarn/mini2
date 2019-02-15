@@ -29,6 +29,8 @@ public class PermissionGroupServiceImpl implements PermissionGroupService {
 
     private static final String ROOT_ID = "00000000-0000-0000-0000-000000000000";
 
+    private static List<String> childIds = new ArrayList<>();
+
     @Resource
     private MongoConfig config;
 
@@ -45,13 +47,13 @@ public class PermissionGroupServiceImpl implements PermissionGroupService {
     @Override
     public void groupCommit(String groupId, boolean flag, List<String> ids, String userId) {
         if (flag) {
-            //删除该分组下的所有子分组
-            List<Group> childGroups = config.mongoTemplate().find(new Query(Criteria.where("parentId").is(groupId)), Group.class);
-            List<String> childIds = childGroups.stream()
-                    .map(Group::getId)
-                    .collect(Collectors.toList());
+            //删除该分组下的所有子分组以及摄像机
+            childIds = new ArrayList<>();
+            childIds = getAllChilds(Arrays.asList(groupId));
             if (null != childIds && childIds.size() > 0) {
                 config.mongoTemplate().remove(new Query(Criteria.where("id").in(childIds)), PermissionGroup.class);
+                childIds.add(groupId);
+                config.mongoTemplate().remove(new Query(Criteria.where("groupId").in(childIds)), PermissionCamera.class);
             }
             //保存当前分组权限
             String parentId = config.mongoTemplate()
@@ -170,5 +172,16 @@ public class PermissionGroupServiceImpl implements PermissionGroupService {
                     .collect(Collectors.toList());
         }
         return returnList;
+    }
+
+    private List<String> getAllChilds(List<String> groupIds) {
+        List<Group> groupList = config.mongoTemplate().find(new Query(Criteria.where("parentId").in(groupIds)), Group.class);
+        if (groupList.size() > 0) {
+            List<String> ids = groupList.stream()
+                    .map(Group::getId)
+                    .collect(Collectors.toList());
+            childIds.addAll(ids);
+        }
+        return childIds;
     }
 }

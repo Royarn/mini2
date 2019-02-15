@@ -1,25 +1,25 @@
 package com.royarn.mini;
 
-import com.alibaba.fastjson.JSON;
-import com.google.gson.Gson;
+
 import com.royarn.mini.config.MongoConfig;
+import com.royarn.mini.dao.TDeviceMapper;
 import com.royarn.mini.entity.*;
+import com.royarn.mini.service.CameraService;
+import com.royarn.mini.service.DevCameraService;
+import com.royarn.mini.service.DevDeviceService;
 import com.royarn.mini.service.TUserService;
+import com.royarn.mini.util.PinYinUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -34,6 +34,9 @@ public class MiniApplicationTests {
 
 	@Resource
 	private MongoConfig config;
+
+	@Resource
+	private JdbcTemplate template;
 
 
 	@Test
@@ -189,11 +192,11 @@ public class MiniApplicationTests {
 		//3328a7d3-6d5d-442d-b932-fd097f10318e   52003aea-5c05-4003-9e24-ad15eeb08e58  3e838769-4656-403b-b5b9-7dee7c55dabb
 		//8e92baf5-7937-434c-86c9-826d8687a943   4223981c-65ba-4d8a-ae1d-d6db67533f00    1e16067d-3f90-4ddb-ab9d-94e10df73c4a
 		List<String> ids = new ArrayList<>();
-		ids.add("7bc1ca2c-acc6-4561-839c-8df1e21953cf");
-		ids.add("3606aff8-67fa-4c86-8ee0-0f03a16c90b0");
-		ids.add("e94d69c7-31c3-47ac-b28f-9b9c446821bc");
-		ids.add("f4bfa705-1676-4917-8e59-06377e547ff9");
-		ids.add("98836f87-eba1-4c52-926d-9eaf1148f121");
+		ids.add("8c3a2f1a-4f11-4123-b42f-6cdf32fe2d2f");
+		ids.add("3937a3a0-c503-4611-9846-a118b0d00e61");
+		ids.add("d1c8e7fb-727d-4f82-a0b9-a66b13ac1245");
+		ids.add("9011fdcf-e5ee-4fe8-9092-370a799d1113");
+		ids.add("f23a61ed-d469-4046-9416-5ac0d1392735");
 		List<Group> groups = new ArrayList<>();
 		List<Device> devices = new ArrayList<>();
 		List<TempTable> tempTables = new ArrayList<>();
@@ -334,4 +337,213 @@ public class MiniApplicationTests {
 		id = id.substring(0, id.length()-8);
 		System.out.println(id);
 	}
+
+	@Test
+	public void test7() {
+        System.out.println(userService.findAll());
+    }
+
+    @Test
+    public void test8() {
+		List<DevCamera> cameras = template.query("select * from dev_device_camera", new RowMapper<DevCamera>() {
+			@Override
+			public DevCamera mapRow(ResultSet resultSet, int i) throws SQLException {
+				DevCamera devCamera = new DevCamera();
+				devCamera.setName(resultSet.getString("name"));
+				return devCamera;
+			}
+		});
+		for (DevCamera devCamera : cameras) {
+			System.out.println(devCamera.getName());
+		}
+	}
+
+	@Test
+	public void test9() {
+		Connection con = null;
+		try {
+			//f9a10a88-1308-480e-9814-fdadedfbfa25   978cc1e7-c0aa-47b3-8581-878925e1ab62
+			Class.forName("com.mysql.jdbc.Driver");
+			con = DriverManager.getConnection("jdbc:mysql://172.16.109.24:3306/np_config?characterEncoding=utf8&useSSL=false",
+					"root", "e18b3f95-af19-4ee1-8f54-0998717ba601");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("select * from other_groups where parent_id = '949afe0a-929c-41a3-b508-b5fcfdf485ef' and name like'%派出所%' ORDER BY sort asc;");
+			Statement st2 = con.createStatement();
+			List<String> ips = Arrays.asList("172.16.102.21", "172.16.102.22", "172.16.102.23",
+					"172.16.102.24", "172.16.102.26", "172.16.102.27", "172.16.105.21", "172.16.105.22",
+					"172.16.105.23", "172.16.105.24", "172.16.105.25", "172.16.105.26","172.16.105.27",
+					"172.16.105.28", "172.16.106.21", "172.16.106.23", "172.16.106.24", "172.16.106.25",
+					"172.16.106.26", "172.16.106.27", "172.16.104.23", "172.16.104.24", "172.16.104.25",
+					"172.16.104.26", "172.16.104.27");
+			int index = 0;
+			int ip_index = 0;
+			int real =1;
+			ips.stream().forEach(s -> System.out.println(s));
+			while (rs.next()) {
+				if (!rs.getString("id").equals("949afe0a-929c-41a3-b508-b5fcfdf485ef")) {
+					if (index == 4) {
+						ip_index = ip_index+1;
+						index = 0;
+					}
+					String id = UUID.randomUUID().toString();
+					String sql = "INSERT INTO `np_config`.`dev_device` (\n" +
+							"\t`id`,\n" +
+							"\t`name`,\n" +
+							"\t`pin_yin`,\n" +
+							"\t`pin_yin_ad`,\n" +
+							"\t`access`,\n" +
+							"\t`group_id`,\n" +
+							"\t`use_type`,\n" +
+							"\t`pau_service_id`,\n" +
+							"\t`service_id`,\n" +
+							"\t`device_type`,\n" +
+							"\t`channel_num`,\n" +
+							"\t`status`,\n" +
+							"\t`sort`,\n" +
+							"\t`voice_talk`,\n" +
+							"\t`host`,\n" +
+							"\t`port`,\n" +
+							"\t`level`,\n" +
+							"\t`device_property`,\n" +
+							"\t`synchro_clock`,\n" +
+							"\t`heart_detection`,\n" +
+							"\t`heart_timeout_times`,\n" +
+							"\t`heart_timeout_time`,\n" +
+							"\t`close_password_authentication`,\n" +
+							"\t`query_directory`,\n" +
+							"\t`subscribe_directory`,\n" +
+							"\t`expires`,\n" +
+							"\t`forward_flag`,\n" +
+							"\t`modify_time` \n" +
+							")\n" +
+							"VALUES\n" +
+							"\t(\n" +
+							"\t\t'"+id+"',\n" +
+							"\t\t'"+ips.get(ip_index)+"',\n" +
+							"\t\t'"+ips.get(ip_index)+"',\n" +
+							"\t\t'"+ips.get(ip_index)+"',\n" +
+							"\t\t'sdk',\n" +
+							"\t\t'"+rs.getString("id")+"',\n" +
+							"\t\t'camera',\n" +
+							"\t\tNULL,\n" +
+							"\t\tNULL,\n" +
+							"\t\t'encoder',\n" +
+							"\t\t1,\n" +
+							"\t\t1,\n" +
+							"\t\t"+real+",\n" +
+							"\t\t1,\n" +
+							"\t\t'"+ips.get(ip_index)+"',\n" +
+							"\t\t"+(554+index)+",\n" +
+							"\t\t'0',\n" +
+							"\t\t'[\\\"alarm\\\"]',\n" +
+							"\t\t1,\n" +
+							"\t\t1,\n" +
+							"\t\t3,\n" +
+							"\t\t60,\n" +
+							"\t\t0,\n" +
+							"\t\t1,\n" +
+							"\t\t1,\n" +
+							"\t\t3600,\n" +
+							"\t\t1,\n" +
+							"\t'2018-12-28 14:37:27' \n" +
+							"\t);";
+					st2.execute(sql);
+					String sqlss = "insert into dev_access_sdk(id,protocol,username,password) values ('"+id+"','rtsphost','admin','admin');";
+					st2.execute(sqlss);
+					index++;
+					real++;
+				}
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+
+	@Resource
+	private DevDeviceService deviceService;
+	@Resource
+	private TDeviceMapper mapper;
+
+	@Test
+	public void test11() {
+//		Connection con = null;
+//		try {
+//			Class.forName("com.mysql.jdbc.Driver");
+//			con = DriverManager.getConnection("jdbc:mysql://172.16.109.25:3306/np_config?characterEncoding=utf8&useSSL=false",
+//					"root", "f9a10a88-1308-480e-9814-fdadedfbfa25");
+//			Statement st = con.createStatement();
+//			ResultSet rs = st.executeQuery("select * from dev_device");
+//			Statement st2 = con.createStatement();
+//			int x =1;
+//			while (rs.next()) {
+//				for (int i=0;i<10000;i++) {
+//					String id = UUID.randomUUID().toString();
+//					String name = rs.getString("name") + "_" + String.valueOf(i);
+//					String sql = "insert into dev_device_camera(id,name,pin_yin,pin_yin_ad,node_id,group_id,device_id,chan_no,chan_sort) values(" +
+//							"'"+id+"','"+name+"','"+name+"','"+name+"','e83490bd-4ce5-4afc-9644-641c32fc0866','"+rs.getString("group_id")+"'," +
+//							" '"+rs.getString("id")+"', '"+x+"','"+x+"')";
+//					st2.execute(sql);
+//					x++;
+//				}
+//			}
+//		} catch (ClassNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		Camera camera = new Camera();
+//		camera.setChanNo(i + "");
+//		camera.setNodeId("e83490bd-4ce5-4afc-9644-641c32fc0866");
+//		camera.setType("local");
+//		camera.setGroupId();
+//		camera.setChanSort(CameraService.getChanSort(camera.getChanNo()));
+	}
+
+	@Test
+	public void test12() {
+		deviceService.insert();
+	}
+
+	@Test
+	public void test13() {
+        Connection con = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://172.16.109.25:3306/np_config?characterEncoding=utf8&useSSL=false",
+                    "root", "f9a10a88-1308-480e-9814-fdadedfbfa25");
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("select * from other_groups where parent_id = 'eb075ebc-1082-4254-ac47-dfee4be7ab63' ORDER BY sort asc");
+            Statement st2 = con.createStatement();
+            List<String> ips = Arrays.asList("172.16.102.21", "172.16.102.22", "172.16.102.23", "172.16.102.24",
+                    "172.16.102.26", "172.16.102.27", "172.16.105.21", "172.16.105.22",
+                    "172.16.105.23", "172.16.105.24", "172.16.105.25", "172.16.105.26","172.16.105.27", "172.16.105.28",
+                    "172.16.106.21", "172.16.106.23", "172.16.106.24", "172.16.106.25", "172.16.106.26", "172.16.106.27");
+            while (rs.next()) {
+                System.out.println(rs.getString("name"));
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

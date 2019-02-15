@@ -17,8 +17,8 @@
         <property name="endingDelimiter" value="`" />
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/test?generateSimpleParameterMetadata=true"
-                        userId="root" password="123456">
+                        connectionURL="jdbc:mysql://172.16.109.25:3306/np_config?generateSimpleParameterMetadata=true"
+                        userId="root" password="f9a10a88-1308-480e-9814-fdadedfbfa25">
         </jdbcConnection>
 
         <javaTypeResolver>
@@ -54,8 +54,24 @@
         <!--<table  tableName="t_menu" domainObjectName="Menu">-->
             <!--<ignoreColumn column="modify_time" />-->
         <!--</table>-->
-        <table  tableName="tx_data">
+        <!--<table  tableName="tx_data">-->
+            <!--<ignoreColumn column="modify_time" />-->
+        <!--</table>-->
+
+
+        <!--<table  tableName="other_groups" domainObjectName="Group">-->
+            <!--<ignoreColumn column="modify_time" />-->
+        <!--</table>-->
+
+        <table  tableName="dev_device" domainObjectName="HDevice">
             <ignoreColumn column="modify_time" />
         </table>
+
+        <!--<table  tableName="dev_device_camera" domainObjectName="DevCamera">-->
+            <!--<columnOverride column="node_id" jdbcType="CHAR" javaType="java.util.UUID"/>-->
+            <!--<columnOverride column="device_type" jdbcType="CHAR" javaType="java.lang.Integer"/>-->
+            <!--<columnOverride column="relation_id" jdbcType="CHAR" javaType="java.util.UUID"/>-->
+            <!--<ignoreColumn column="modify_time" />-->
+        <!--</table>-->
     </context>
 </generatorConfiguration>

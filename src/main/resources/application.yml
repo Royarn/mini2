@@ -6,18 +6,20 @@ spring:
   datasource:
     name: writedb
     #url: jdbc:mysql://192.168.12.76:7001/test?useUnicode=true&characterEncoding=utf8&useCursorFetch=true&defaultFetchSize=500&allowMultiQueries=true&rewriteBatchedStatements=true&useSSL=false
-    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8&useCursorFetch=true&defaultFetchSize=500&allowMultiQueries=true&rewriteBatchedStatements=true&useSSL=false
+    url: jdbc:mysql://172.16.109.24:3306/np_config?useUnicode=true&characterEncoding=utf8&useCursorFetch=true&defaultFetchSize=500&allowMultiQueries=true&rewriteBatchedStatements=true&useSSL=false
 #    username: route
-    username: root
+    username: np
+#    password: f9a10a88-1308-480e-9814-fdadedfbfa25
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
   readdb:
     name: readdb
     #url: jdbc:mysql://192.168.12.76:7002/test?useUnicode=true&characterEncoding=utf8&useCursorFetch=true&defaultFetchSize=500&allowMultiQueries=true&rewriteBatchedStatements=true&useSSL=false
-    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8&useCursorFetch=true&defaultFetchSize=500&allowMultiQueries=true&rewriteBatchedStatements=true&useSSL=false
+    url: jdbc:mysql://172.16.109.24:3306/np_config?useUnicode=true&characterEncoding=utf8&useCursorFetch=true&defaultFetchSize=500&allowMultiQueries=true&rewriteBatchedStatements=true&useSSL=false
     #username: route
-    username: root
+    username: np
+#    password: f9a10a88-1308-480e-9814-fdadedfbfa25
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
   profiles:
@@ -37,7 +39,7 @@ management:
 
         include: "*"
 server:
-  port: 9102
+  port: 8089
   tomcat:
     accesslog:
       enabled: false
