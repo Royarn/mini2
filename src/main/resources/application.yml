@@ -6,9 +6,9 @@ spring:
   datasource:
     name: writedb
     #url: jdbc:mysql://192.168.12.76:7001/test?useUnicode=true&characterEncoding=utf8&useCursorFetch=true&defaultFetchSize=500&allowMultiQueries=true&rewriteBatchedStatements=true&useSSL=false
-    url: jdbc:mysql://172.16.109.24:3306/np_config?useUnicode=true&characterEncoding=utf8&useCursorFetch=true&defaultFetchSize=500&allowMultiQueries=true&rewriteBatchedStatements=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/np_config?useUnicode=true&characterEncoding=utf8&useCursorFetch=true&defaultFetchSize=500&allowMultiQueries=true&rewriteBatchedStatements=true&useSSL=false
 #    username: route
-    username: np
+    username: root
 #    password: f9a10a88-1308-480e-9814-fdadedfbfa25
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
@@ -16,9 +16,9 @@ spring:
   readdb:
     name: readdb
     #url: jdbc:mysql://192.168.12.76:7002/test?useUnicode=true&characterEncoding=utf8&useCursorFetch=true&defaultFetchSize=500&allowMultiQueries=true&rewriteBatchedStatements=true&useSSL=false
-    url: jdbc:mysql://172.16.109.24:3306/np_config?useUnicode=true&characterEncoding=utf8&useCursorFetch=true&defaultFetchSize=500&allowMultiQueries=true&rewriteBatchedStatements=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/np_config?useUnicode=true&characterEncoding=utf8&useCursorFetch=true&defaultFetchSize=500&allowMultiQueries=true&rewriteBatchedStatements=true&useSSL=false
     #username: route
-    username: np
+    username: root
 #    password: f9a10a88-1308-480e-9814-fdadedfbfa25
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
@@ -44,22 +44,22 @@ server:
     accesslog:
       enabled: false
     basedir: tomcat
-#dubbo:
-#  application:
-#    name: mini
-#  protocol:
-#    name: dubbo
-#    port: 20881
-#  registry:
-#    address: zookeeper://192.168.12.148:2181
+dubbo:
+  application:
+    name: mini
+  protocol:
+    name: dubbo
+    port: 20881
+  registry:
+    address: zookeeper://192.168.12.149:2181
 mongodb:
   host: 172.16.34.208
   port: 27017
   dataSource: np_config
-#kafka:
-#  producer:
-#    server: 192.168.12.148
-#    retries: 0
-#    batchSize: 4096
-#    linger: 1
-#    bufferMemory: 40960
+kafka:
+  producer:
+    server: 192.168.12.149
+    retries: 0
+    batchSize: 4096
+    linger: 1
+    bufferMemory: 40960

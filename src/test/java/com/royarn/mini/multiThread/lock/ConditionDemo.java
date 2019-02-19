@@ -38,8 +38,8 @@ public class ConditionDemo {
                 if (i >= 30) {
                     System.out.println("等待中... ...");
                     Thread.sleep(1000);
-                    full.await();
-                    empty.signal();
+                    empty.await();
+                    full.signal();
                 }
             }
         } catch (InterruptedException e) {
@@ -61,8 +61,8 @@ public class ConditionDemo {
                 if (i <= 0) {
                     System.out.println("等待中... ...");
                     Thread.sleep(1000);
-                    full.signal();
-                    empty.await();
+                    empty.signal();
+                    full.await();
                 }
             }
         } catch (InterruptedException e) {
