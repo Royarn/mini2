@@ -1,5 +1,8 @@
 package com.royarn.mini.annotation;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+
 /**
  * @author lizq
  * @Description: ${todo}
@@ -21,6 +24,18 @@ public class BaseTest {
             this.remark = remark;
         }
 
+        @UserTag(methodName = "addUser", description = "添加用户")
+        public void add() {}
+
+        @UserTag(methodName = "updateUser", description = "更新用户")
+        public void update() {}
+
+        @UserTag(methodName = "qryUser", description = "查询用户列表")
+        public void select() {}
+
+        @UserTag(methodName = "deleteUser", description = "删除用户")
+        public void delete() {}
+
         @Override
         public String toString() {
             return "id : " + id + " " + " name : " + name + " " + " remark : " + remark;
@@ -33,5 +48,14 @@ public class BaseTest {
         System.out.println(userStr);
         User user1 = (User) Serieisable.parseStr2Obj(userStr);
         System.out.println(user1);
+        for (Method method : User.class.getDeclaredMethods()) {
+            UserTag userTag = method.getAnnotation(UserTag.class);
+            for (Annotation annotation : method.getAnnotations()) {
+                System.out.println(annotation.toString());
+            }
+            if (null != userTag) {
+                System.out.println(userTag.methodName() + "#############" + userTag.description());
+            }
+        }
     }
 }

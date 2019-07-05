@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@EnableDubbo
+//@EnableDubbo
 @EnableTransactionManagement(order = 10)
 @SpringBootApplication
 @MapperScan(basePackages = {"com.royarn.mini.dao"})

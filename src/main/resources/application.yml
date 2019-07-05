@@ -6,7 +6,7 @@ spring:
   datasource:
     name: writedb
     #url: jdbc:mysql://192.168.12.76:7001/test?useUnicode=true&characterEncoding=utf8&useCursorFetch=true&defaultFetchSize=500&allowMultiQueries=true&rewriteBatchedStatements=true&useSSL=false
-    url: jdbc:mysql://localhost:3306/np_config?useUnicode=true&characterEncoding=utf8&useCursorFetch=true&defaultFetchSize=500&allowMultiQueries=true&rewriteBatchedStatements=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8&useCursorFetch=true&defaultFetchSize=500&allowMultiQueries=true&rewriteBatchedStatements=true&useSSL=false
 #    username: route
     username: root
 #    password: f9a10a88-1308-480e-9814-fdadedfbfa25
@@ -16,7 +16,7 @@ spring:
   readdb:
     name: readdb
     #url: jdbc:mysql://192.168.12.76:7002/test?useUnicode=true&characterEncoding=utf8&useCursorFetch=true&defaultFetchSize=500&allowMultiQueries=true&rewriteBatchedStatements=true&useSSL=false
-    url: jdbc:mysql://localhost:3306/np_config?useUnicode=true&characterEncoding=utf8&useCursorFetch=true&defaultFetchSize=500&allowMultiQueries=true&rewriteBatchedStatements=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8&useCursorFetch=true&defaultFetchSize=500&allowMultiQueries=true&rewriteBatchedStatements=true&useSSL=false
     #username: route
     username: root
 #    password: f9a10a88-1308-480e-9814-fdadedfbfa25
@@ -44,14 +44,14 @@ server:
     accesslog:
       enabled: false
     basedir: tomcat
-dubbo:
-  application:
-    name: mini
-  protocol:
-    name: dubbo
-    port: 20881
-  registry:
-    address: zookeeper://192.168.12.149:2181
+#dubbo:
+#  application:
+#    name: mini
+#  protocol:
+#    name: dubbo
+#    port: 20881
+#  registry:
+#    address: zookeeper://192.168.12.149:2181
 mongodb:
   host: 172.16.34.208
   port: 27017
