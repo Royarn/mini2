@@ -1,16 +1,17 @@
 package com.royarn.mini;
 
 
+import com.google.gson.JsonArray;
 import com.royarn.mini.config.MongoConfig;
 import com.royarn.mini.dao.TDeviceMapper;
 import com.royarn.mini.entity.*;
-import com.royarn.mini.service.CameraService;
-import com.royarn.mini.service.DevCameraService;
-import com.royarn.mini.service.DevDeviceService;
-import com.royarn.mini.service.TUserService;
-import com.royarn.mini.util.PinYinUtil;
+import com.royarn.mini.service.*;
+import com.royarn.mini.util.GsonUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,6 +25,8 @@ import java.util.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class MiniApplicationTests {
+
+	private Logger logger = LoggerFactory.getLogger(MiniApplicationTests.class);
 
 //	@Test
 //	public void contextLoads() {
@@ -546,4 +549,12 @@ public class MiniApplicationTests {
             }
         }
     }
+
+    @Autowired
+	private RedisService redisService;
+    @Test
+    public void testRedis() {
+		List<String> values = redisService.lrange("books", 0, 5);
+		System.out.println(GsonUtils.listoStr(values));
+	}
 }
