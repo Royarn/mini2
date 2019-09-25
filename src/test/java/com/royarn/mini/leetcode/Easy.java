@@ -1,7 +1,6 @@
 package com.royarn.mini.leetcode;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Description:
@@ -42,5 +41,42 @@ public class Easy {
             s[j] = tmp;
         }
         return s;
+    }
+
+    public static void miniStack() {
+
+    }
+}
+
+/**
+ * Mini stack --from leetcode
+ */
+class MiniStack {
+    private Stack<Integer> data;
+    private Stack<Integer> mini;
+
+    public MiniStack() {
+        data = new Stack<>();
+        mini = new Stack<>();
+    }
+
+    public int push(int item) {
+        data.push(item);
+        if (mini.empty() || item <= mini.peek()) {
+            mini.push(item);
+        }
+        return item;
+    }
+
+    public int pop() {
+        int value = data.pop();
+        if (!mini.empty() && value == mini.peek()) {
+            mini.pop();
+        }
+        return value;
+    }
+
+    public int getMini() {
+        return mini.peek();
     }
 }
